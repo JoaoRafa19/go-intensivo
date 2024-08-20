@@ -2,28 +2,27 @@ package main
 
 import (
 	"fmt"
-
 	"time"
 )
 
-func count(n int) {
-	for i := range n {
-		fmt.Println(i)
+func worker(workerID int, data chan int) {
+	for x:= range data {
+		fmt.Printf("worker %d got %d\n", workerID, x)
 		time.Sleep(time.Second)
 	}
 }
 
 func main() {
 
-	ch := make(chan string)
-
-	go func() {
-		ch <- "Teste"
-	}()
-
-	msg := <-ch
-	fmt.Println(msg)
+	ch := make(chan int)
+	workers := 9
+	for i := range workers {
+		
+		go worker(i, ch)
+	}
 	
+	
+	for i := range 20 {
+		ch <- i
+	}
 }
-
-
