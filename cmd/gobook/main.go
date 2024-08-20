@@ -3,7 +3,9 @@ package main
 import (
 	"database/sql"
 	"net/http"
+	"os"
 
+	"github.com/JoaoRafa19/go-intensivo/internal/cli"
 	"github.com/JoaoRafa19/go-intensivo/internal/service"
 	"github.com/JoaoRafa19/go-intensivo/internal/web"
 	_ "github.com/mattn/go-sqlite3"
@@ -22,6 +24,12 @@ func main() {
 
 	BookService := service.NewBookService(db)
 	bookHandlers := web.NewBookHandlers(BookService)
+
+	if len(os.Args) > 1 {
+		bookCli := cli.NewBookCli(BookService)
+		bookCli.Run()
+		return
+	}
 
 	router := http.NewServeMux()
 	router.HandleFunc("GET /books", bookHandlers.GetBooks)
