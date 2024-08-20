@@ -57,7 +57,7 @@ func (cli *BookCLI) simulateReading(bookIDs []string) {
 		}
 		bookIDS = append(bookIDS, id)
 	}
-	responses := cli.service.SimulateMultipleReadings(bookIDS, 1*time.Second)
+	responses := cli.service.SimulateMultipleReadings(bookIDS, 5*time.Second)
 	for _ , response := range responses {
 		fmt.Println(response)
 	}
